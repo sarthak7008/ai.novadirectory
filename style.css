@@ -1,0 +1,125 @@
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Inter, sans-serif;
+}
+
+body{
+background:linear-gradient(135deg,#0f172a,#1e1b4b,#0b1220);
+color:#e5e7eb;
+min-height:100vh;
+overflow-x:hidden;
+}
+
+/* soft glow background */
+body::before{
+content:"";
+position:fixed;
+width:500px;
+height:500px;
+background:#60a5fa;
+filter:blur(140px);
+top:-150px;
+left:-150px;
+opacity:0.25;
+}
+
+body::after{
+content:"";
+position:fixed;
+width:500px;
+height:500px;
+background:#a78bfa;
+filter:blur(140px);
+bottom:-150px;
+right:-150px;
+opacity:0.25;
+}
+
+header{
+text-align:center;
+padding:70px 20px 30px;
+}
+
+header h1{
+font-size:3.2rem;
+font-weight:700;
+letter-spacing:-1px;
+background:linear-gradient(90deg,#60a5fa,#a78bfa,#34d399);
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
+}
+
+header p{
+margin-top:10px;
+color:#cbd5e1;
+opacity:0.8;
+}
+
+.container{
+width:85%;
+margin:auto;
+padding-bottom:60px;
+}
+
+.section{
+margin-top:50px;
+}
+
+.section h2{
+margin-bottom:15px;
+font-size:1.2rem;
+display:inline-block;
+padding:6px 12px;
+border-radius:8px;
+background:rgba(255,255,255,0.08);
+backdrop-filter:blur(10px);
+}
+
+/* category colors */
+.coding{ border-left:4px solid #60a5fa; }
+.design{ border-left:4px solid #a78bfa; }
+.writing{ border-left:4px solid #34d399; }
+.video{ border-left:4px solid #f472b6; }
+
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+gap:15px;
+}
+
+.card{
+background:rgba(255,255,255,0.06);
+border:1px solid rgba(255,255,255,0.08);
+padding:18px;
+border-radius:14px;
+backdrop-filter:blur(12px);
+cursor:pointer;
+transition:0.3s ease;
+position:relative;
+overflow:hidden;
+}
+
+/* soft hover */
+.card:hover{
+transform:translateY(-6px);
+background:rgba(255,255,255,0.10);
+border-color:rgba(255,255,255,0.2);
+}
+
+/* subtle shine effect */
+.card::before{
+content:"";
+position:absolute;
+top:0;
+left:-100%;
+width:100%;
+height:100%;
+background:linear-gradient(90deg,transparent,rgba(255,255,255,0.08),transparent);
+transition:0.5s;
+}
+
+.card:hover::before{
+left:100%;
+}

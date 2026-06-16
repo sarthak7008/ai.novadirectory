@@ -1,0 +1,1 @@
+console.log("NOVA AI aesthetic loaded");
