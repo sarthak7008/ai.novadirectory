@@ -1,60 +1,529 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>NOVA AI</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NOVA AI · aesthetic tools</title>
+  <!-- Font & Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
+    }
 
-<link rel="stylesheet" href="style.css">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    body {
+      background: radial-gradient(circle at 20% 30%, #0d1829, #0a0e1a);
+      color: #eef2f6;
+      min-height: 100vh;
+      overflow-x: hidden;
+      padding: 0 1.5rem 3rem;
+      position: relative;
+    }
+
+    /* animated glass orbs */
+    .orb {
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(120px);
+      pointer-events: none;
+      z-index: 0;
+      animation: floatOrb 18s infinite alternate ease-in-out;
+    }
+    .orb-1 {
+      width: 500px;
+      height: 500px;
+      background: #4f7cf7;
+      opacity: 0.25;
+      top: -200px;
+      left: -150px;
+    }
+    .orb-2 {
+      width: 500px;
+      height: 500px;
+      background: #b47af0;
+      opacity: 0.25;
+      bottom: -200px;
+      right: -150px;
+      animation-delay: 4s;
+    }
+    .orb-3 {
+      width: 350px;
+      height: 350px;
+      background: #34d399;
+      opacity: 0.15;
+      top: 40%;
+      left: 60%;
+      animation-delay: 2s;
+    }
+
+    @keyframes floatOrb {
+      0% { transform: translate(0, 0) scale(1); }
+      100% { transform: translate(40px, -40px) scale(1.2); }
+    }
+
+    /* main content layer */
+    header, .container {
+      position: relative;
+      z-index: 2;
+    }
+
+    header {
+      text-align: center;
+      padding: 70px 20px 30px;
+      backdrop-filter: blur(2px);
+    }
+
+    header h1 {
+      font-size: 4.2rem;
+      font-weight: 700;
+      letter-spacing: -1.5px;
+      background: linear-gradient(145deg, #8bb3ff, #c9a8ff, #6fdfb0);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      filter: drop-shadow(0 8px 12px rgba(0, 20, 40, 0.4));
+      animation: titleGlow 4s infinite alternate;
+    }
+    @keyframes titleGlow {
+      0% { filter: drop-shadow(0 0 8px rgba(96, 165, 250, 0.3)); }
+      100% { filter: drop-shadow(0 0 25px rgba(167, 139, 250, 0.5)); }
+    }
+
+    header p {
+      margin-top: 12px;
+      font-size: 1.2rem;
+      color: #b9c7e0;
+      letter-spacing: 0.4px;
+      font-weight: 300;
+      background: rgba(255, 255, 255, 0.04);
+      display: inline-block;
+      padding: 0.3rem 2rem;
+      border-radius: 40px;
+      backdrop-filter: blur(6px);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .container {
+      max-width: 1300px;
+      margin: 0 auto;
+      padding-bottom: 40px;
+    }
+
+    /* tabs & categories */
+    .tabs-wrapper {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.8rem 1.2rem;
+      margin: 40px 0 20px;
+    }
+
+    .tab-btn {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      padding: 10px 24px;
+      border-radius: 40px;
+      color: #cdd9f0;
+      font-weight: 500;
+      font-size: 0.95rem;
+      backdrop-filter: blur(8px);
+      cursor: pointer;
+      transition: 0.25s ease;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      letter-spacing: 0.3px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    }
+    .tab-btn i {
+      font-size: 1rem;
+      opacity: 0.8;
+    }
+    .tab-btn:hover {
+      background: rgba(255, 255, 255, 0.12);
+      transform: translateY(-2px);
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+    .tab-btn.active {
+      background: rgba(96, 165, 250, 0.2);
+      border-color: #60a5fa;
+      color: #fff;
+      box-shadow: 0 0 18px rgba(96, 165, 250, 0.2);
+    }
+
+    /* sections grid */
+    .section {
+      margin-top: 30px;
+      animation: fadeUp 0.6s ease;
+    }
+
+    @keyframes fadeUp {
+      0% { opacity: 0; transform: translateY(20px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+    .section-header h2 {
+      font-size: 1.7rem;
+      font-weight: 600;
+      letter-spacing: -0.3px;
+      background: rgba(255,255,255,0.04);
+      padding: 6px 22px 6px 16px;
+      border-radius: 60px;
+      backdrop-filter: blur(6px);
+      border-left: 6px solid;
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .section-header h2 i {
+      font-size: 1.3rem;
+      opacity: 0.7;
+    }
+    .section-header .badge {
+      background: rgba(255,255,255,0.06);
+      padding: 4px 16px;
+      border-radius: 40px;
+      font-size: 0.8rem;
+      color: #aab9d6;
+      border: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+      gap: 20px;
+    }
+
+    /* enhanced card */
+    .card {
+      background: rgba(255, 255, 255, 0.04);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 24px;
+      padding: 24px 18px 18px;
+      transition: all 0.3s cubic-bezier(0.2, 0.9, 0.3, 1.1);
+      cursor: default;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+    }
+
+    .card:hover {
+      transform: translateY(-10px) scale(1.01);
+      background: rgba(255, 255, 255, 0.09);
+      border-color: rgba(255, 255, 255, 0.18);
+      box-shadow: 0 20px 35px rgba(0, 0, 0, 0.5);
+    }
+
+    .card .card-icon {
+      font-size: 1.8rem;
+      margin-bottom: 6px;
+      opacity: 0.7;
+    }
+    .card h3 {
+      font-weight: 600;
+      font-size: 1.2rem;
+      letter-spacing: -0.2px;
+      color: #f0f4ff;
+    }
+    .card .desc {
+      font-size: 0.85rem;
+      color: #b2c2dd;
+      line-height: 1.4;
+      font-weight: 300;
+      margin-top: 4px;
+    }
+    .card .tag {
+      margin-top: 10px;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      background: rgba(255,255,255,0.06);
+      padding: 4px 12px;
+      border-radius: 30px;
+      align-self: flex-start;
+      border: 1px solid rgba(255,255,255,0.04);
+      color: #8fa1c4;
+    }
+
+    /* shine effect */
+    .card::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -60%;
+      width: 150%;
+      height: 150%;
+      background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.05), transparent 70%);
+      opacity: 0;
+      transition: opacity 0.5s, transform 0.6s;
+      transform: rotate(10deg);
+      pointer-events: none;
+    }
+    .card:hover::before {
+      opacity: 1;
+      transform: rotate(0deg);
+    }
+
+    /* color accents per category */
+    .coding-accent { border-left: 6px solid #60a5fa; }
+    .design-accent { border-left: 6px solid #a78bfa; }
+    .writing-accent { border-left: 6px solid #34d399; }
+    .video-accent { border-left: 6px solid #f472b6; }
+    .ai-accent { border-left: 6px solid #fbbf24; }
+    .productivity-accent { border-left: 6px solid #f97316; }
+
+    /* responsive */
+    @media (max-width: 700px) {
+      header h1 { font-size: 2.8rem; }
+      .container { width: 100%; padding: 0 0.5rem; }
+      .grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 14px; }
+      .section-header h2 { font-size: 1.3rem; }
+    }
+    @media (max-width: 480px) {
+      .tab-btn { padding: 6px 16px; font-size: 0.8rem; }
+      .card { padding: 18px 14px; }
+    }
+
+    /* extra info row */
+    .info-strip {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 16px;
+      background: rgba(255,255,255,0.02);
+      backdrop-filter: blur(6px);
+      border-radius: 40px;
+      padding: 18px 30px;
+      margin: 40px 0 10px;
+      border: 1px solid rgba(255,255,255,0.04);
+      font-size: 0.9rem;
+      color: #b5c6e3;
+    }
+    .info-strip span i {
+      margin-right: 10px;
+      color: #7b93c0;
+    }
+    .info-strip .highlight {
+      color: #d6e2ff;
+      font-weight: 500;
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 60px;
+      opacity: 0.5;
+      font-size: 0.8rem;
+      letter-spacing: 0.5px;
+      color: #8495b5;
+    }
+
+    /* hidden helper */
+    .hidden-section {
+      display: none;
+    }
+  </style>
 </head>
-
 <body>
 
-<header>
-    <h1>NOVA AI</h1>
-    <p>Aesthetic AI Tools Directory</p>
-</header>
+  <!-- Orbs -->
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="orb orb-3"></div>
 
-<section class="container">
+  <header>
+    <h1>✦ NOVA AI</h1>
+    <p><i class="fas fa-sparkles" style="margin-right: 10px;"></i> aesthetic tools · curated intelligence</p>
+  </header>
 
-    <div class="section">
-        <h2 class="coding">💻 Coding AI</h2>
-        <div class="grid">
-            <div class="card">Cursor AI</div>
-            <div class="card">GitHub Copilot</div>
-            <div class="card">Codeium</div>
-        </div>
+  <div class="container">
+
+    <!-- Tab Navigation -->
+    <div class="tabs-wrapper" id="tabContainer">
+      <button class="tab-btn active" data-tab="all"><i class="fas fa-th"></i> All</button>
+      <button class="tab-btn" data-tab="coding"><i class="fas fa-code"></i> Coding</button>
+      <button class="tab-btn" data-tab="design"><i class="fas fa-palette"></i> Design</button>
+      <button class="tab-btn" data-tab="writing"><i class="fas fa-feather-alt"></i> Writing</button>
+      <button class="tab-btn" data-tab="video"><i class="fas fa-video"></i> Video</button>
+      <button class="tab-btn" data-tab="ai"><i class="fas fa-brain"></i> AI Core</button>
+      <button class="tab-btn" data-tab="productivity"><i class="fas fa-rocket"></i> Productivity</button>
     </div>
 
-    <div class="section">
-        <h2 class="design">🎨 Design AI</h2>
-        <div class="grid">
-            <div class="card">Midjourney</div>
-            <div class="card">DALL·E</div>
-            <div class="card">Leonardo AI</div>
-        </div>
+    <!-- Info strip -->
+    <div class="info-strip">
+      <span><i class="fas fa-robot"></i> 25+ AI tools</span>
+      <span><i class="fas fa-bolt"></i> updated weekly</span>
+      <span><i class="fas fa-star"></i> <span class="highlight">NOVA</span> aesthetic v2</span>
+      <span><i class="fas fa-mouse-pointer"></i> hover for magic</span>
     </div>
 
-    <div class="section">
-        <h2 class="writing">✍️ Writing AI</h2>
-        <div class="grid">
-            <div class="card">ChatGPT</div>
-            <div class="card">Claude</div>
-            <div class="card">Jasper AI</div>
-        </div>
-    </div>
+    <!-- ===== SECTIONS ===== -->
+    <div id="sectionContainer">
 
-    <div class="section">
-        <h2 class="video">🎥 Video AI</h2>
-        <div class="grid">
-            <div class="card">Runway ML</div>
-            <div class="card">Pika Labs</div>
-            <div class="card">Synthesia</div>
+      <!-- Coding -->
+      <div class="section" data-category="coding">
+        <div class="section-header">
+          <h2 class="coding-accent"><i class="fas fa-code"></i> Coding AI</h2>
+          <span class="badge">6 tools</span>
         </div>
-    </div>
+        <div class="grid">
+          <div class="card"><div class="card-icon"><i class="fas fa-laptop-code"></i></div><h3>Cursor AI</h3><div class="desc">Editor with AI superpowers, context-aware.</div><span class="tag">IDE</span></div>
+          <div class="card"><div class="card-icon"><i class="fab fa-github"></i></div><h3>GitHub Copilot</h3><div class="desc">AI pair programming, suggests code.</div><span class="tag">extension</span></div>
+          <div class="card"><div class="card-icon"><i class="fas fa-cloud"></i></div><h3>Codeium</h3><div class="desc">Free fast autocomplete & chat.</div><span class="tag">AI</span></div>
+          <div class="card"><div class="card-icon"><i class="fas fa-terminal"></i></div><h3>Tabnine</h3><div class="desc">Predictive code completion.</div><span class="tag">privacy</span></div>
+          <div class="card"><div class="card-icon"><i class="fas fa-bolt"></i></div><h3>Replit AI</h3><div class="desc">Collaborative AI coding environment.</div><span class="tag">cloud</span></div>
+          <div class="card"><div class="card-icon"><i class="fas fa-robot"></i></div><h3>Mintlify</h3><div class="desc">AI documentation generator.</div><span class="tag">docs</span></div>
+        </div>
+      </div>
 
-</section>
+      <!-- Design -->
+      <div class="section" data-category="design">
+        <div class="section-header">
+          <h2 class="design-accent"><i class="fas fa-palette"></i> Design AI</h2>
+          <span class="badge">6 tools</span>
+        </div>
+        <div class="grid">
+          <div class="card"><div class="card-icon"><i class="fas fa-image"></i></div><h3>Midjourney</h3><div class="desc">Artistic image generation, dreamlike.</div><span class="tag">art</span></div>
+          <div class="card"><div class="card-icon"><i class="fas fa-paint-brush"></i></div><h3>DALL·E 3</h3><div class="desc">OpenAI's high-fidelity image creator.</div><span class="tag">realism</span></div>
+          <div class="card"><div class="card-icon"><i class="fas fa-vector-square"></i></div><h3>Leonardo AI</h3><div class="desc">Game assets, characters & more.</div><span class="tag">game</span></div>
+          <div class="card"><div class="card-icon"><i class="fas fa-crop-alt"></i></div><h3>Canva AI</h3><div class="desc">Magic design & editing suite.</div><span class="tag">no-code</span></div>
+          <div class="card"><div class="card-icon"><i class="fas fa-edit"></i></div><h3>Adobe Firefly</h3><div class="desc">Generative fill & text effects.</div><span class="tag">creative</span></div>
+          <div class="card"><div class="card-icon"><i class="fas fa-shapes"></i></div><h3>Stable Diffusion</h3><div class="desc">Open-source image synthesis.</div><span class="tag">open</span></div>
+        </div>
+      </div>
+
+      <!-- Writing -->
+      <div class="section" data-category="writing">
+        <div class="section-header">
+          <h2 class="writing-accent"><i class="fas fa-feather-alt"></i> Writing AI</h2>
+          <span class="badge">5 tools</span>
+        </div>
+        <div class="grid">
+          <div class="card"><div class="card-icon"><i class="fas fa-comment-dots"></i></div><h3>ChatGPT</h3><div class="desc">Versatile conversational & writing.</div><span class="tag">GPT-4</span></div>
+          <div class="card"><div class="card-icon"><i class="fas fa-message"></i></div><h3>Claude</h3><div class="desc">Refined, safe, nuanced writing.</div><span class="tag">anthropic</span></div>
+          <div class="card"><div class="card-icon"><i class="fas fa-pen-fancy"></i></div><h3>Jasper AI</h3><div class="desc">Marketing & content copy.</div><span class="tag">copy</span></div>
+          <div class="card"><div class="card-icon"><i class="fas fa-file-alt"></i></div><h3>Copy.ai</h3><div class="desc">Sales & social content generator.</div><span class="tag">fast</span></div>
+          <div class="card"><div class="card-icon"><i class="fas fa-quote-right"></i></div><h3>Rytr</h3><div class="desc">Affordable AI writing assistant.</div><span class="tag">budget</span></div>
+        </div>
+      </div>
+
+      <!-- Video -->
+      <div class="section" data-category="video">
+        <div class="section-header">
+          <h2 class="video-accent"><i class="fas fa-video"></i> Video AI</h2>
+          <span class="badge">5 tools</span>
+        </div>
+        <div class="grid">
+          <div class="card"><div class="card-icon"><i class="fas fa-film"></i></div><h3>Runway ML</h3><div class="desc">Video editing & generative AI.</div><span class="tag">pro</span></div>
+          <div class="card"><div class="card-icon"><i class="fas fa-play-circle"></i></div><h3>Pika Labs</h3><div class="desc">Text-to-video with style.</div><span class="tag">creative</span></div>
+          <div class="card"><div class="card-icon"><i class="fas fa-user-tie"></i></div><h3>Synthesia</h3><div class="desc">AI avatars & video narration.</div><span class="tag">business</span></div>
+          <div class="card"><div class="card-icon"><i class="fas fa-mask"></i></div><h3>HeyGen</h3><div class="desc">Realistic avatar video generation.</div><span class="tag">talking</span></div>
+          <div class="card"><div class="card-icon"><i class="fas fa-cut"></i></div><h3>Descript</h3><div class="desc">AI video & audio editing.</div><span class="tag">podcast</span></div>
+        </div>
+      </div>
+
+      <!-- AI Core (extra) -->
+      <div class="section" data-category="ai">
+        <div class="section-header">
+          <h2 class="ai-accent"><i class="fas fa-brain"></i> AI Core</h2>
+          <span class="badge">4 tools</span>
+        </div>
+        <div class="grid">
+          <div class="card"><div class="card-icon"><i class="fas fa-microchip"></i></div><h3>OpenAI API</h3><div class="desc">LLM, embeddings, fine-tuning.</div><span class="tag">dev</span></div>
+          <div class="card"><div class="card-icon"><i class="fas fa-database"></i></div><h3>Hugging Face</h3><div class="desc">Models, datasets & spaces.</div><span class="tag">open</span></div>
+          <div class="card"><div class="card-icon"><i class="fas fa-cloud-upload-alt"></i></div><h3>Replicate</h3><div class="desc">Run open-source models in cloud.</div><span class="tag">ML</span></div>
+          <div class="card"><div class="card-icon"><i class="fas fa-robot"></i></div><h3>LangChain</h3><div class="desc">Framework for LLM apps.</div><span class="tag">dev</span></div>
+        </div>
+      </div>
+
+      <!-- Productivity (extra) -->
+      <div class="section" data-category="productivity">
+        <div class="section-header">
+          <h2 class="productivity-accent"><i class="fas fa-rocket"></i> Productivity</h2>
+          <span class="badge">4 tools</span>
+        </div>
+        <div class="grid">
+          <div class="card"><div class="card-icon"><i class="fas fa-check-double"></i></div><h3>Notion AI</h3><div class="desc">Docs, notes & AI assistant.</div><span class="tag">workspace</span></div>
+          <div class="card"><div class="card-icon"><i class="fas fa-calendar-check"></i></div><h3>Motion</h3><div class="desc">AI task & calendar planner.</div><span class="tag">schedule</span></div>
+          <div class="card"><div class="card-icon"><i class="fas fa-envelope"></i></div><h3>Superhuman</h3><div class="desc">AI-powered email productivity.</div><span class="tag">inbox</span></div>
+          <div class="card"><div class="card-icon"><i class="fas fa-file-pdf"></i></div><h3>ChatPDF</h3><div class="desc">Chat with your documents.</div><span class="tag">research</span></div>
+        </div>
+      </div>
+
+    </div><!-- end sectionContainer -->
+
+    <footer>
+      <i class="fas fa-crown" style="margin-right: 8px;"></i> NOVA AI · aesthetic directory · 2026
+    </footer>
+
+  </div><!-- end container -->
+
+  <script>
+    (function() {
+      const tabBtns = document.querySelectorAll('.tab-btn');
+      const sections = document.querySelectorAll('.section');
+
+      function filterSections(category) {
+        sections.forEach(section => {
+          const sectionCat = section.dataset.category;
+          if (category === 'all' || sectionCat === category) {
+            section.classList.remove('hidden-section');
+            section.style.display = 'block';
+          } else {
+            section.classList.add('hidden-section');
+            section.style.display = 'none';
+          }
+        });
+      }
+
+      tabBtns.forEach(btn => {
+        btn.addEventListener('click', function(e) {
+          // remove active from all
+          tabBtns.forEach(b => b.classList.remove('active'));
+          this.classList.add('active');
+
+          const tab = this.dataset.tab;
+          filterSections(tab);
+
+          // re-trigger animation on visible sections
+          sections.forEach(sec => {
+            if (sec.style.display !== 'none') {
+              sec.style.animation = 'none';
+              requestAnimationFrame(() => {
+                sec.style.animation = 'fadeUp 0.5s ease forwards';
+              });
+            }
+          });
+        });
+      });
+
+      // initial: show all
+      filterSections('all');
+
+      // optional: extra hover micro interaction on cards
+      document.querySelectorAll('.card').forEach(card => {
+        card.addEventListener('mouseenter', function() {
+          this.style.transition = 'all 0.25s cubic-bezier(0.2, 0.9, 0.4, 1.1)';
+        });
+      });
+
+      console.log('✨ NOVA AI · aesthetic enhanced');
+    })();
+  </script>
 
 </body>
 </html>
